@@ -57,7 +57,7 @@ a {
 /* Global  End */
 /* Header Start  */
 .header {
-    height: calc(100vh + 2rem);
+    height: 620px;
 }
 /* Navbar Start */
 .navbar {
@@ -76,6 +76,7 @@ a {
     font-size: 2rem;
     display: flex;
     align-items: center;
+    user-select: none;
 }
 .nav-menu {
     width: 100%;
@@ -146,7 +147,7 @@ a {
     align-items: center;
     gap: 2rem;
     margin-top: -12rem;
-    margin-bottom: 4rem;
+    margin-bottom: 2rem;
 }
 .form-group {
     flex: 1;
@@ -168,11 +169,43 @@ a {
     font-size: 1rem;
     font-weight: 500;
 }
+
+/* Results container Start */
+.results-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+.result-card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.075);
+}
+.result-card-header {
+    padding: 1rem;
+    border-bottom: 1px solid var(--clr-gray-1);
+}
+.result-card-body {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+.result-short-link {
+    color: var(--clr-cyan);
+}
+.btn-result {
+    border-radius: 6px;
+    font-size: 1rem;
+}
+/* Results container End */
+
 .statistics-heading {
     text-align: center;
     font-size: 2rem;
     color: var(--clr-gray-5);
     margin-bottom: 1rem;
+    margin-top: 4rem;
 }
 .statistics-text {
     text-align: center;
@@ -296,6 +329,11 @@ a {
 .footer-social {
 }
 /* Footer End */
+@media screen and (min-width: 1280px) {
+    .header {
+        height: 700px;
+    }
+}
 
 @media screen and (max-width: 1002px) {
     /* Header Start */
@@ -313,14 +351,131 @@ a {
 
 @media screen and (max-width: 800px) {
     /* Header Start*/
-    .nav-list {
-        display: none;
-    }
-    .nav-auth {
-        display: none;
+    .header {
+        height: auto;
     }
     .nav-toggler {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+    }
+    .nav-toggler > * {
+        display: none;
+        font-size: 24px;
+    }
+    .nav-toggler .show {
         display: block;
     }
+
+    .header-content {
+        grid-template-columns: 1fr;
+        width: 100%;
+    }
+    .header-image {
+        order: -1;
+        height: 87vw;
+    }
+    .header-image img {
+        height: 87vw;
+    }
+    .header-info {
+        text-align: center;
+        padding-bottom: 8rem;
+        width: 89vw;
+    }
+    .header-text {
+        max-width: 100%;
+    }
+
+    /* Nav Menu start */
+    .navbar-container {
+        justify-content: space-between;
+        align-items: center;
+    }
+    .navbar .logo {
+        margin-bottom: 0;
+    }
+    .nav-menu {
+        background-color: var(--clr-gray-4);
+        position: absolute;
+        top: 7rem;
+        width: 90%;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1.5rem;
+        border-radius: 8px;
+        padding: 2rem;
+        display: none;
+    }
+    .show-menu {
+        display: flex;
+    }
+    .nav-list {
+        flex-direction: column;
+
+        border-bottom: 1px solid var(--clr-gray-2);
+        padding-bottom: 2rem;
+    }
+    .nav-auth {
+        flex-direction: column;
+        align-items: stretch;
+        margin-left: 0;
+    }
+    .nav-link {
+        color: #fff;
+        font-size: 1rem;
+    }
+    .nav-auth .btn {
+        padding: 0.75rem;
+        font-size: 1rem;
+        color: #fff;
+    }
+    /* Nav Menu End */
     /* Header End*/
+    /* Statistics Start */
+    .statistics-container {
+        grid-template-columns: 1fr;
+    }
+    .green-line {
+        height: 100%;
+        width: 8px;
+        left: 49.5%;
+        top: 0;
+    }
+    .card {
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    /* Statistics End */
+
+    /* Footer Start */
+    .footer-content {
+        grid-template-columns: 1fr;
+        justify-items: center;
+    }
+    .logo {
+        margin-bottom: 2rem;
+    }
+    .footer-links-container {
+        flex-direction: column;
+        justify-self: center;
+        gap: 2rem;
+    }
+    .footer-links {
+        align-items: center;
+    }
+    .footer-socials {
+        margin-top: 2rem;
+        justify-self: center;
+    }
+    /* Footer End */
+}
+
+@media screen and (max-width: 540px) {
+    .shorten-form {
+        flex-direction: column;
+        align-items: stretch;
+    }
 }

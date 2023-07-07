@@ -1,6 +1,52 @@
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
+import { AiOutlineClose } from "react-icons/ai";
+import { GiHamburgerMenu } from "react-icons/gi";
 
 const App = () => {
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [shortenedLinks, setShortenedLinks] = useState([]);
+    const [linkInputValue, setlinkInputValue] = useState("");
+
+    const navMenuToggleHandler = () => {
+        setIsMenuOpen(!isMenuOpen);
+    };
+
+    // Shorten Link Request
+    const shortenerLinkHandler = async (link) => {
+        let linkRequest = {
+            destination: link,
+            domain: { fullName: "rebrand.ly" },
+        };
+        const res = await fetch("https://api.rebrandly.com/v1/links", {
+            method: "POST",
+            body: JSON.stringify(linkRequest),
+            headers: { "Content-Type": "application/json", apikey: "c9014a2dcb2e4ec4800f9a943dc47ca1" },
+        });
+        const data = await res.json();
+    };
+
+    // Get Num of links
+    const getAllShortenedLinks = async (numOfLinks) => {
+        const res = await fetch(
+            `https://api.rebrandly.com/v1/links?orderBy=createdAt&orderDir=desc&limit=${numOfLinks}`,
+            {
+                headers: { apikey: "c9014a2dcb2e4ec4800f9a943dc47ca1" },
+            }
+        );
+        const data = await res.json();
+        setShortenedLinks(data);
+        console.log(data);
+    };
+
+    const formSubmitHandler = (e) => {
+        e.preventDefault();
+        shortenerLinkHandler(linkInputValue);
+        setlinkInputValue("");
+        getAllShortenedLinks(25);
+    };
+    useEffect(() => {
+        getAllShortenedLinks(25);
+    }, []);
     return (
         <div>
             <header className="header">
@@ -10,7 +56,7 @@ const App = () => {
                             <a href="/" className="logo">
                                 <img src="images/logo.svg" alt="Logo" />
                             </a>
-                            <div className="nav-menu">
+                            <div className={`nav-menu ${isMenuOpen && "show-menu"}`}>
                                 <ul className="nav-list">
                                     <li className="nav-item">
                                         <a href="/" className="nav-link">
@@ -33,8 +79,9 @@ const App = () => {
                                     <button className="btn">Sign Up</button>
                                 </div>
                             </div>
-                            <div className="nav-toggler">
-                                <img src="images/" alt="" className="show" />
+                            <div onClick={navMenuToggleHandler} className="nav-toggler">
+                                <AiOutlineClose className={`${isMenuOpen && "show"}`} />
+                                <GiHamburgerMenu className={`${!isMenuOpen && "show"}`} />
                             </div>
                         </div>
                     </div>
@@ -61,12 +108,33 @@ const App = () => {
                 <div className="container">
                     <div className="statistics-content">
                         {/* Form */}
-                        <form className="shorten-form">
+                        <form onSubmit={formSubmitHandler} className="shorten-form">
                             <div className="form-group">
-                                <input placeholder="Shorten a link here..." type="text" />
+                                <input
+                                    onChange={(e) => setlinkInputValue(e.target.value)}
+                                    value={linkInputValue}
+                                    placeholder="Shorten a link here..."
+                                    type="text"
+                                />
                             </div>
                             <button className="btn btn-form">Shorten it!</button>
                         </form>
+                        {/* Shortened Links container */}
+                        <div className="results-container">
+                            {/* Result card */}
+                            {shortenedLinks.map((link) => {
+                                return (
+                                    <div key={link.id} className="result-card">
+                                        <div className="result-card-header">{link.destination}</div>
+                                        <div className="result-card-body">
+                                            <p className="result-short-link">{link.shortUrl}</p>
+                                            <button className="btn    btn-result">Copy</button>
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                        </div>
+
                         <h2 className="statistics-heading">Advanced Statistics</h2>
                         <p className="statistics-text">
                             Track how your links are performing across the web with our advanced statistics
