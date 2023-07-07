@@ -1,11 +1,15 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { GiHamburgerMenu } from "react-icons/gi";
+import ResultCard from "./ResultCard";
 
 const App = () => {
+    const [isError, setIsError] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [shortenedLinks, setShortenedLinks] = useState([]);
     const [linkInputValue, setlinkInputValue] = useState("");
+    const [addedLink, setAddedLink] = useState("");
 
     const navMenuToggleHandler = () => {
         setIsMenuOpen(!isMenuOpen);
@@ -13,16 +17,25 @@ const App = () => {
 
     // Shorten Link Request
     const shortenerLinkHandler = async (link) => {
-        let linkRequest = {
-            destination: link,
-            domain: { fullName: "rebrand.ly" },
-        };
-        const res = await fetch("https://api.rebrandly.com/v1/links", {
-            method: "POST",
-            body: JSON.stringify(linkRequest),
-            headers: { "Content-Type": "application/json", apikey: "c9014a2dcb2e4ec4800f9a943dc47ca1" },
-        });
-        const data = await res.json();
+        try {
+            setIsLoading(true);
+            setIsError(false);
+            let linkRequest = {
+                destination: link,
+                domain: { fullName: "rebrand.ly" },
+            };
+            const res = await fetch("https://api.rebrandly.com/v1/links", {
+                method: "POST",
+                body: JSON.stringify(linkRequest),
+                headers: { "Content-Type": "application/json", apikey: "c9014a2dcb2e4ec4800f9a943dc47ca1" },
+            });
+            const data = await res.json();
+            console.log(data);
+            setAddedLink(data);
+        } catch (err) {
+            setIsError(true);
+        }
+        setIsLoading(false);
     };
 
     // Get Num of links
@@ -35,18 +48,17 @@ const App = () => {
         );
         const data = await res.json();
         setShortenedLinks(data);
-        console.log(data);
     };
 
     const formSubmitHandler = (e) => {
         e.preventDefault();
         shortenerLinkHandler(linkInputValue);
         setlinkInputValue("");
-        getAllShortenedLinks(25);
     };
     useEffect(() => {
-        getAllShortenedLinks(25);
-    }, []);
+        getAllShortenedLinks(5);
+        setAddedLink("");
+    }, [addedLink]);
     return (
         <div>
             <header className="header">
@@ -123,15 +135,7 @@ const App = () => {
                         <div className="results-container">
                             {/* Result card */}
                             {shortenedLinks.map((link) => {
-                                return (
-                                    <div key={link.id} className="result-card">
-                                        <div className="result-card-header">{link.destination}</div>
-                                        <div className="result-card-body">
-                                            <p className="result-short-link">{link.shortUrl}</p>
-                                            <button className="btn    btn-result">Copy</button>
-                                        </div>
-                                    </div>
-                                );
+                                return <ResultCard key={link.id} {...link} />;
                             })}
                         </div>
 

@@ -184,6 +184,7 @@ a {
 .result-card-header {
     padding: 1rem;
     border-bottom: 1px solid var(--clr-gray-1);
+    word-wrap: break-word;
 }
 .result-card-body {
     padding: 1rem;
