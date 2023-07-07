@@ -8,7 +8,7 @@ const App = () => {
                     <div className="container">
                         <div className="navbar-container">
                             <a href="/" className="logo">
-                                Shortly
+                                <img src="images/logo.svg" alt="Logo" />
                             </a>
                             <div className="nav-menu">
                                 <ul className="nav-list">
@@ -28,10 +28,10 @@ const App = () => {
                                         </a>
                                     </li>
                                 </ul>
-                            </div>
-                            <div className="nav-auth">
-                                <button className="btn btn-transparent">Login</button>
-                                <button className="btn">Sign Up</button>
+                                <div className="nav-auth">
+                                    <button className="btn btn-transparent">Login</button>
+                                    <button className="btn">Sign Up</button>
+                                </div>
                             </div>
                             <div className="nav-toggler">
                                 <img src="images/" alt="" className="show" />
@@ -63,7 +63,7 @@ const App = () => {
                         {/* Form */}
                         <form className="shorten-form">
                             <div className="form-group">
-                                <input type="text" />
+                                <input placeholder="Shorten a link here..." type="text" />
                             </div>
                             <button className="btn btn-form">Shorten it!</button>
                         </form>
@@ -74,6 +74,7 @@ const App = () => {
                         </p>
 
                         <div className="statistics-container">
+                            <div className="green-line"></div>
                             {/* Card */}
                             <div className="card">
                                 <div className="card-image">
@@ -123,12 +124,12 @@ const App = () => {
 
             <section className="boost-section">
                 <h2 className="boost-title">Boost your links today</h2>
-                <button className="btn">Get Started</button>
+                <button className="btn btn-md">Get Started</button>
             </section>
 
             <footer className="footer">
                 <div className="container">
-                    <div className="container-content">
+                    <div className="footer-content">
                         <div className="logo">Shortly</div>
                         {/* Footer links start */}
                         <div className="footer-links-container">
