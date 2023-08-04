@@ -10,6 +10,7 @@ const App = () => {
     const [shortenedLinks, setShortenedLinks] = useState([]);
     const [linkInputValue, setlinkInputValue] = useState("");
     const [addedLink, setAddedLink] = useState("");
+    const [copiedLink, setCopiedLink] = useState("");
 
     const navMenuToggleHandler = () => {
         setIsMenuOpen(!isMenuOpen);
@@ -135,7 +136,14 @@ const App = () => {
                         <div className="results-container">
                             {/* Result card */}
                             {shortenedLinks.map((link) => {
-                                return <ResultCard key={link.id} {...link} />;
+                                return (
+                                    <ResultCard
+                                        key={link.id}
+                                        {...link}
+                                        copiedLink={copiedLink}
+                                        setCopiedLink={setCopiedLink}
+                                    />
+                                );
                             })}
                         </div>
 

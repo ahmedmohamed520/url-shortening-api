@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 
-const ResultCard = ({ destination, shortUrl }) => {
-    const [copiedLink, setCopiedLink] = useState("");
-
+const ResultCard = ({ destination, shortUrl, copiedLink, setCopiedLink }) => {
     const copyLinkHandler = () => {
         setCopiedLink(shortUrl);
         navigator.clipboard.writeText(shortUrl);
@@ -12,8 +10,11 @@ const ResultCard = ({ destination, shortUrl }) => {
             <div className="result-card-header">{destination}</div>
             <div className="result-card-body">
                 <p className="result-short-link">{shortUrl}</p>
-                <button onClick={copyLinkHandler} className="btn  btn-result">
-                    Copy
+                <button
+                    onClick={copyLinkHandler}
+                    className={`btn  btn-result ${copiedLink === shortUrl && "choosen-btn"}`}
+                >
+                    {copiedLink === shortUrl ? "Copied!" : "Copy"}
                 </button>
             </div>
         </div>
