@@ -61,7 +61,7 @@ const App = () => {
         setAddedLink("");
     }, [addedLink]);
     return (
-        <div>
+        <>
             <header className="header">
                 <nav className="navbar">
                     <div className="container">
@@ -274,7 +274,7 @@ const App = () => {
                     </div>
                 </div>
             </footer>
-        </div>
+        </>
     );
 };
 
